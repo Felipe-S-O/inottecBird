@@ -45,7 +45,11 @@ public class inottecBird extends ApplicationAdapter {
 		variacao += Gdx.graphics.getDeltaTime() * 5;
 		if(variacao > 2) variacao = 0;
 
-		if(posicaInicialVertical > 20) {
+		if(Gdx.input.justTouched()){
+			velocidadeQueda = -15;
+		}
+
+		if(posicaInicialVertical > 20 || velocidadeQueda < 20) {
 			posicaInicialVertical = posicaInicialVertical - velocidadeQueda;
 		}
 
