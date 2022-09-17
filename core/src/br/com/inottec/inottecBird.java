@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -25,7 +26,7 @@ public class inottecBird extends ApplicationAdapter {
 	private Circle passaroCirculo;
 	private Rectangle retanguloCanoTopo;
 	private Rectangle retanguloCanoBaixo;
-	private ShapeRenderer shape;
+	//private ShapeRenderer shape;
 
 	// Atributos de configuracao
 	private int larguraDispositivo;
@@ -47,9 +48,9 @@ public class inottecBird extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		numeroRandomico = new Random();
 		passaroCirculo = new Circle();
-		retanguloCanoBaixo = new Rectangle();
+		/*retanguloCanoBaixo = new Rectangle();
 		retanguloCanoTopo = new Rectangle();
-		shape = new ShapeRenderer();
+		shape = new ShapeRenderer();*/
 		fonte = new BitmapFont();
 		fonte.setColor(Color.WHITE);
 		fonte.getData().setScale(10);
@@ -130,12 +131,19 @@ public class inottecBird extends ApplicationAdapter {
 			, canoTopo.getWidth(), canoTopo.getHeight()
 		);
 		//Desenhar formas
-		shape.begin(ShapeRenderer.ShapeType.Filled);
+		/*shape.begin(ShapeRenderer.ShapeType.Filled);
 		shape.circle(passaroCirculo.x, passaroCirculo.y, passaroCirculo.radius);
 		shape.rect(retanguloCanoTopo.x, retanguloCanoTopo.y, retanguloCanoTopo.width, retanguloCanoTopo.height);
 		shape.rect(retanguloCanoBaixo.x, retanguloCanoBaixo.y, retanguloCanoBaixo.width, retanguloCanoBaixo.height);
 		shape.setColor(Color.RED);
-		shape.end();
+		shape.end();*/
+
+		//Teste de colisão
+		if (Intersector.overlaps(passaroCirculo, retanguloCanoBaixo) || Intersector.overlaps(passaroCirculo, retanguloCanoTopo)){
+
+			Gdx.app.log("Colisão", "Houve colisão");
+
+		}
 	}
 	
 	@Override
