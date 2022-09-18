@@ -3,6 +3,8 @@ package br.com.inottec;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,6 +13,9 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
@@ -31,8 +36,8 @@ public class inottecBird extends ApplicationAdapter {
 	//private ShapeRenderer shape;
 
 	// Atributos de configuracao
-	private int larguraDispositivo;
-	private int alturaDispositivo;
+	private float larguraDispositivo;
+	private float alturaDispositivo;
 	private int estadoJogo = 0; // 0-> jogo não iniciado 1-> jogo iniciado 2-> tela Game over
 	private int pontuacao = 0;
 
@@ -45,6 +50,13 @@ public class inottecBird extends ApplicationAdapter {
 	private float alturaEntreCanosRandomica;
 	private boolean marcauPonto = false;
 
+	//Camera
+	private OrthographicCamera camera;
+	private Viewport viewport;
+	private  final float VIRTUAL_WIDTH = 950;
+	private  final float VIRTUAL_HEIGHT = 1200;
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -55,7 +67,7 @@ public class inottecBird extends ApplicationAdapter {
 		shape = new ShapeRenderer();*/
 		fonte = new BitmapFont();
 		fonte.setColor(Color.WHITE);
-		fonte.getData().setScale(10);
+		fonte.getData().setScale(6);
 
 		mensagem = new BitmapFont();
 		mensagem.setColor(Color.WHITE);
@@ -74,17 +86,28 @@ public class inottecBird extends ApplicationAdapter {
 		canoTopo = new Texture("cano_topo_maior.png");
 		gameOver = new Texture("game_over.png");
 
-		larguraDispositivo = Gdx.graphics.getWidth();
-		alturaDispositivo = Gdx.graphics.getHeight();
+		/****************************************************
+		 * Configuração da câmera
+		 */
+		camera = new OrthographicCamera();
+		camera.position.set(VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT/2, 0);
+		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+
+		larguraDispositivo = VIRTUAL_WIDTH;
+		alturaDispositivo = VIRTUAL_HEIGHT;
 		posicaInicialVertical = alturaDispositivo / 2;
 		posicaoMovimentoCanoHorizontal = larguraDispositivo;
-		espacoEntreCanos = 300;
+		espacoEntreCanos = 250;
 
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
+        camera.update();
+
+		//Limpar farmes anterores
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		deltaTime = Gdx.graphics.getDeltaTime();
 		variacao += deltaTime * 5;
@@ -113,7 +136,7 @@ public class inottecBird extends ApplicationAdapter {
 				//verifica se o cano saiu inteiramente da tela
 				if (posicaoMovimentoCanoHorizontal < -100) {
 					posicaoMovimentoCanoHorizontal = larguraDispositivo;
-					alturaEntreCanosRandomica = numeroRandomico.nextInt(1000) - 250;
+					alturaEntreCanosRandomica = numeroRandomico.nextInt(700) - 250;
 					marcauPonto = false;
 				}
 				//Verifica pontuação
@@ -137,6 +160,9 @@ public class inottecBird extends ApplicationAdapter {
 			}
 
 		}
+		//Configuração dados de projeto da câmera
+		batch.setProjectionMatrix(camera.combined);
+
 		batch.begin();
 
 		batch.draw(fundo, 0, 0, larguraDispositivo, alturaDispositivo);
@@ -175,7 +201,12 @@ public class inottecBird extends ApplicationAdapter {
 			estadoJogo = 2;
 		}
 	}
-	
+
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+
 	@Override
 	public void dispose () {
 		batch.dispose();
