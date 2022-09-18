@@ -21,8 +21,10 @@ public class inottecBird extends ApplicationAdapter {
 	private Texture fundo;
 	private Texture canoBaixo;
 	private Texture canoTopo;
+	private Texture gameOver;
 	private Random numeroRandomico;
 	private BitmapFont fonte;
+	private BitmapFont mensagem, mensagem2;
 	private Circle passaroCirculo;
 	private Rectangle retanguloCanoTopo;
 	private Rectangle retanguloCanoBaixo;
@@ -31,7 +33,7 @@ public class inottecBird extends ApplicationAdapter {
 	// Atributos de configuracao
 	private int larguraDispositivo;
 	private int alturaDispositivo;
-	private int estadoJogo = 0; // 0 -> jogo não iniciado 1 -> jogo iniciado
+	private int estadoJogo = 0; // 0-> jogo não iniciado 1-> jogo iniciado 2-> tela Game over
 	private int pontuacao = 0;
 
 	private float variacao = 0;
@@ -55,6 +57,13 @@ public class inottecBird extends ApplicationAdapter {
 		fonte.setColor(Color.WHITE);
 		fonte.getData().setScale(10);
 
+		mensagem = new BitmapFont();
+		mensagem.setColor(Color.WHITE);
+		mensagem.getData().setScale(3);
+		mensagem2 = new BitmapFont();
+		mensagem2.setColor(Color.WHITE);
+		mensagem2.getData().setScale(3);
+
 		passaros = new Texture[3];
 		passaros[0] = new Texture("passaro1.png");
 		passaros[1] = new Texture("passaro2.png");
@@ -63,6 +72,7 @@ public class inottecBird extends ApplicationAdapter {
 		fundo = new Texture("fundo.png");
 		canoBaixo = new Texture("cano_baixo_maior.png");
 		canoTopo = new Texture("cano_topo_maior.png");
+		gameOver = new Texture("game_over.png");
 
 		larguraDispositivo = Gdx.graphics.getWidth();
 		alturaDispositivo = Gdx.graphics.getHeight();
@@ -85,32 +95,47 @@ public class inottecBird extends ApplicationAdapter {
 			if (Gdx.input.justTouched()){
 				estadoJogo = 1;
 			}
-		}else {
-			posicaoMovimentoCanoHorizontal -= deltaTime * 200;
+		}else {//Iniciado
+
 			velocidadeQueda++;
-
-			if (Gdx.input.justTouched()) {
-				velocidadeQueda = -15;
-			}
-
 			if (posicaInicialVertical > 20 || velocidadeQueda < 20) {
 				posicaInicialVertical = posicaInicialVertical - velocidadeQueda;
 			}
 
-			//verifica se o cano saiu inteiramente da tela
-			if (posicaoMovimentoCanoHorizontal < -100) {
-				posicaoMovimentoCanoHorizontal = larguraDispositivo;
-				alturaEntreCanosRandomica = numeroRandomico.nextInt(1000) - 250;
-				marcauPonto = false;
-			}
-			//Verifica pontuação
-			if (posicaoMovimentoCanoHorizontal < 138 ){
-				if (!marcauPonto){
-					pontuacao++;
-					marcauPonto = true;
+
+			if (estadoJogo == 1){
+
+				posicaoMovimentoCanoHorizontal -= deltaTime * 200;
+
+				if (Gdx.input.justTouched()) {
+					velocidadeQueda = -15;
+				}
+				//verifica se o cano saiu inteiramente da tela
+				if (posicaoMovimentoCanoHorizontal < -100) {
+					posicaoMovimentoCanoHorizontal = larguraDispositivo;
+					alturaEntreCanosRandomica = numeroRandomico.nextInt(1000) - 250;
+					marcauPonto = false;
+				}
+				//Verifica pontuação
+				if (posicaoMovimentoCanoHorizontal < 138 ){
+					if (!marcauPonto){
+						pontuacao++;
+						marcauPonto = true;
+					}
+
+				}
+			}else {
+
+				if (Gdx.input.justTouched()){
+					estadoJogo = 0;
+					pontuacao = 0;
+					velocidadeQueda = 0;
+					posicaInicialVertical = alturaDispositivo/2;
+					posicaoMovimentoCanoHorizontal = larguraDispositivo;
 				}
 
 			}
+
 		}
 		batch.begin();
 
@@ -119,6 +144,11 @@ public class inottecBird extends ApplicationAdapter {
         batch.draw(canoBaixo, posicaoMovimentoCanoHorizontal,alturaDispositivo/2 - canoBaixo.getHeight() - espacoEntreCanos / 2 + alturaEntreCanosRandomica);
 		batch.draw(passaros [(int)variacao], 140, posicaInicialVertical);
 		fonte.draw(batch, String.valueOf(pontuacao), larguraDispositivo / 2, alturaDispositivo - 50 );
+		if (estadoJogo == 2){
+			batch.draw(gameOver, larguraDispositivo/2 - gameOver.getWidth()/2, alturaDispositivo/2);
+			mensagem.draw(batch, "Toque para Reiniciar!",larguraDispositivo/2 - 210, alturaDispositivo/2 - gameOver.getHeight()/2);
+			mensagem2.draw(batch, "Felipe S.O | inottec",larguraDispositivo/2 -200, 80);
+		}
 		batch.end();
 
 		passaroCirculo.set(140+passaros[0].getWidth()/2,posicaInicialVertical+passaros[0].getHeight()/2, passaros[0].getWidth()/2);
@@ -139,10 +169,10 @@ public class inottecBird extends ApplicationAdapter {
 		shape.end();*/
 
 		//Teste de colisão
-		if (Intersector.overlaps(passaroCirculo, retanguloCanoBaixo) || Intersector.overlaps(passaroCirculo, retanguloCanoTopo)){
+		if (Intersector.overlaps(passaroCirculo, retanguloCanoBaixo) || Intersector.overlaps(passaroCirculo, retanguloCanoTopo)
+				|| posicaInicialVertical <= 20 || posicaInicialVertical >= alturaDispositivo){
 
-			Gdx.app.log("Colisão", "Houve colisão");
-
+			estadoJogo = 2;
 		}
 	}
 	
