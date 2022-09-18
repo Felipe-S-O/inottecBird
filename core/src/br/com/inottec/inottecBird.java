@@ -27,9 +27,10 @@ public class inottecBird extends ApplicationAdapter {
 	private Texture canoBaixo;
 	private Texture canoTopo;
 	private Texture gameOver;
+	private Texture inottec;
 	private Random numeroRandomico;
 	private BitmapFont fonte;
-	private BitmapFont mensagem, mensagem2;
+	private BitmapFont mensagem;
 	private Circle passaroCirculo;
 	private Rectangle retanguloCanoTopo;
 	private Rectangle retanguloCanoBaixo;
@@ -72,16 +73,14 @@ public class inottecBird extends ApplicationAdapter {
 		mensagem = new BitmapFont();
 		mensagem.setColor(Color.WHITE);
 		mensagem.getData().setScale(3);
-		mensagem2 = new BitmapFont();
-		mensagem2.setColor(Color.WHITE);
-		mensagem2.getData().setScale(3);
 
 		passaros = new Texture[3];
-		passaros[0] = new Texture("passaro1.png");
-		passaros[1] = new Texture("passaro2.png");
-		passaros[2] = new Texture("passaro3.png");
+		passaros[0] = new Texture("passaro4.png");
+		passaros[1] = new Texture("passaro5.png");
+		passaros[2] = new Texture("passaro6.png");
 
-		fundo = new Texture("fundo.png");
+		fundo = new Texture("fundo2.png");
+		inottec = new Texture("logo.png");
 		canoBaixo = new Texture("cano_baixo_maior.png");
 		canoTopo = new Texture("cano_topo_maior.png");
 		gameOver = new Texture("game_over.png");
@@ -149,9 +148,11 @@ public class inottecBird extends ApplicationAdapter {
 				}
 			}else {
 
+
 				if (Gdx.input.justTouched()){
-					estadoJogo = 0;
+
 					pontuacao = 0;
+					estadoJogo = 0;
 					velocidadeQueda = 0;
 					posicaInicialVertical = alturaDispositivo/2;
 					posicaoMovimentoCanoHorizontal = larguraDispositivo;
@@ -173,7 +174,7 @@ public class inottecBird extends ApplicationAdapter {
 		if (estadoJogo == 2){
 			batch.draw(gameOver, larguraDispositivo/2 - gameOver.getWidth()/2, alturaDispositivo/2);
 			mensagem.draw(batch, "Toque para Reiniciar!",larguraDispositivo/2 - 210, alturaDispositivo/2 - gameOver.getHeight()/2);
-			mensagem2.draw(batch, "Felipe S.O | inottec",larguraDispositivo/2 -200, 80);
+			batch.draw(inottec,larguraDispositivo/2 - 200,32);
 		}
 		batch.end();
 
