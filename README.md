@@ -62,7 +62,8 @@
 
   *  <img align="center" alt="Felipe-Androidstudio" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/androidstudio/androidstudio-original.svg"> Android Studi     
   *  <img align="center" alt="Felipe-Java" height="30" width="40" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"> Java
-  
+  *  <img align="center" alt="Felipe-Java" height="30" width="40" src=" https://libgdx.com/assets/brand/logo_dark.svg"> LibGDX
+ 
 ###
 
 ## Acesso ao projeto
