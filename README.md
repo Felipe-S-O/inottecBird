@@ -30,9 +30,13 @@
 <p align="justify">
  
 É um jogo que tem o objetivo de ganhar o maior número possível de pontos, controlando um pássaro (tocando na tela) sem deixá-lo colidir nos canos. Se o pássaro tocar em algum obstáculo ou se deixar o pássaro cair, o jogo termina. Sempre que o personagem passa por um conjunto de canos, o jogador ganha um ponto.   
-   ![inottec Bird](https://user-images.githubusercontent.com/63815922/216805037-486a6a03-4205-44be-8a7a-fe369e4f6399.png)
 
 </p>
+<div align="center">
+  
+   ![inottec Bird](https://user-images.githubusercontent.com/63815922/216805037-486a6a03-4205-44be-8a7a-fe369e4f6399.png)
+ 
+</div>
 
 ## Funcionalidades
 
