@@ -41,7 +41,9 @@
 ## Funcionalidades
 
 :heavy_check_mark: `Funcionalidade 1:` Visual simples e agradável.
-:heavy_check_mark: `Funcionalidade 2:` Controles divertidos e fáceis
+
+:heavy_check_mark: `Funcionalidade 2:` Controles divertidos e fáceis.
+
 :heavy_check_mark: `Funcionalidade 3:` Sistemática instigante
 
 
