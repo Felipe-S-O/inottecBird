@@ -1,6 +1,6 @@
 <h1 align="center">
   <p align="center">inottec Bird</p>
-  <a href="https://inottec.com.br/felipe/"> <img src="https://user-images.githubusercontent.com/63815922/216805037-486a6a03-4205-44be-8a7a-fe369e4f6399.png?text=Alcool-ou-Gasolina#vitrinedev" alt="inottec Bird"></a>
+  <a href="https://inottec.com.br/felipe/"> <img src="https://user-images.githubusercontent.com/63815922/216805275-fb1866d0-8007-4efb-b313-9fbc286028d7.png?text=Alcool-ou-Gasolina#vitrinedev" alt="inottec Bird"></a>
 </h1>
 
 
